@@ -2,19 +2,22 @@ const navEmail = document.querySelector('.navbar-email')
 const desktopMenu = document.querySelector('.desktop-menu')
 const burgerBtn = document.querySelector('.menu')
 const carritoBtn = document.querySelector('.navbar-shopping-cart')
+const productDetailCloseIcon = document.querySelector('.product-detail-close')
 const mobileMenu = document.querySelector('.mobile-menu')
-const aside = document.querySelector('.product-detail')
+const shoppingCartContainer = document.querySelector('#shoppingCartContainer')
+const productDetailContainer = document.querySelector('#productDetail')
 const cardsContainer = document.querySelector('.cards-container')
 
 navEmail.addEventListener('click', toggleDesktopMenu)
 burgerBtn.addEventListener('click', toggleMobileMenu)
 carritoBtn.addEventListener('click', toggleCarritoAside)
+productDetailCloseIcon.addEventListener('click', closeProductDetailAside)
 
 function toggleDesktopMenu(){
-  const isCarritoClosed = aside.classList.contains('inactive')
+  const isCarritoClosed = shoppingCartContainer.classList.contains('inactive')
 
   if (!isCarritoClosed){
-    aside.classList.add('inactive')
+    shoppingCartContainer.classList.add('inactive')
   }
 
   desktopMenu.classList.toggle('inactive')
@@ -22,11 +25,13 @@ function toggleDesktopMenu(){
 
 function toggleMobileMenu(){
 
-  const isCarritoClosed = aside.classList.contains('inactive')
+  const isCarritoClosed = shoppingCartContainer.classList.contains('inactive')
 
   if (!isCarritoClosed){
-    aside.classList.add('inactive')
+    shoppingCartContainer.classList.add('inactive')
   }
+
+  closeProductDetailAside()
 
   mobileMenu.classList.toggle('inactive')
 }
@@ -35,6 +40,7 @@ function toggleCarritoAside(){
 
   const isMobileMenuClosed = mobileMenu.classList.contains('inactive')
   const isDesktopMenuClosed = desktopMenu.classList.contains('inactive')
+  const isProductDetailClosed = productDetailContainer.classList.contains('inactive')
 
   if (!isMobileMenuClosed){
     mobileMenu.classList.add('inactive')
@@ -44,7 +50,20 @@ function toggleCarritoAside(){
     desktopMenu.classList.add('inactive')
   }
 
-  aside.classList.toggle('inactive')
+  if (!isProductDetailClosed){
+    productDetailContainer.classList.add('inactive')
+  }
+
+  shoppingCartContainer.classList.toggle('inactive')
+}
+
+function openProductDetailAside(){
+  shoppingCartContainer.classList.add('inactive')
+  productDetailContainer.classList.remove('inactive');
+}
+
+function closeProductDetailAside(){
+  productDetailContainer.classList.add('inactive')
 }
 
 const productList = []
@@ -72,6 +91,7 @@ function renderProducts (arr) {
   
     const productImg = document.createElement('img')
     productImg.setAttribute('src', product.image)
+    productImg.addEventListener('click', openProductDetailAside)
   
     const productInfo = document.createElement('div')
     productInfo.classList.add('product-info')
